@@ -1,0 +1,6 @@
+node_modules
+contract/cache
+contract/bundles
+contract/start-mastermind-permit.json
+contract/start-mastermind-plan.json
+contract/start-mastermind.js
