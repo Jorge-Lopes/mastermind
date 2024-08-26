@@ -14,34 +14,34 @@ import { E } from '@endo/far';
 import path from 'path';
 
 export const makeHelpers = () => {
-  const setup = async t => {
+  const setup = async (t) => {
     const filename = new URL(import.meta.url).pathname;
     const dirname = path.dirname(filename);
     const contractPath = `${dirname}/../src/index.js`;
     const contractBundle = await bundleSource(contractPath);
 
-    const { zoeService: zoe, feeMintAccess } = makeZoeKitForTest();
+    const { zoeService: zoe } = makeZoeKitForTest();
 
     const rootPath = 'root';
     const { rootNode } = makeFakeStorageKit(rootPath);
     const storageNode = rootNode.makeChildNode('mastermind');
     const board = makeFakeBoard();
     const marshaller = board.getReadonlyMarshaller();
-    const timer = buildManualTimer(t.log);
+    const chainTimerService = buildManualTimer(t.log);
 
-    const privateArgs = harden({ storageNode, marshaller, timer });
+    const privateArgs = harden({ storageNode, marshaller, timer: chainTimerService });
 
     const installation = E(zoe).install(contractBundle);
     const { creatorFacet, publicFacet, instance } = await E(zoe).startInstance(
       installation,
       undefined,
       undefined,
-      privateArgs,
+      privateArgs
     );
 
     return {
       zoe,
-      feeMintAccess,
+      chainTimerService,
       creatorFacet,
       publicFacet,
       instance,
@@ -56,25 +56,23 @@ export const makeHelpers = () => {
       guessInvitation,
       undefined,
       undefined,
-      guessOfferArgs,
+      guessOfferArgs
     );
     const feedback = await E(guessSeat).getOfferResult();
 
     return feedback;
   };
 
-  const getMastermindState = async publicTopics => {
+  const getMastermindState = async (publicSubscribers) => {
     await eventLoopIteration();
 
-    const mastermindSubscriber = await E(publicTopics).getMastermindState();
-    const mastermindState = await E(
-      mastermindSubscriber.subscriber,
-    ).getUpdateSince();
+    const mastermindSubscriber = publicSubscribers.game.subscriber;
+    const mastermindState = await E(mastermindSubscriber).getUpdateSince();
 
     return mastermindState.value;
   };
 
-  const getSecretCode = async publicTopics => {
+  const getSecretCode = async (publicTopics) => {
     return E(publicTopics).getMastermindSecretCode();
   };
 
@@ -86,7 +84,13 @@ export const makeHelpers = () => {
     return guess;
   };
 
-  return { setup, makeGuess, getMastermindState, getSecretCode, generateRandomGuess };
+  return {
+    setup,
+    makeGuess,
+    getMastermindState,
+    getSecretCode,
+    generateRandomGuess,
+  };
 };
 
 /**
@@ -94,7 +98,7 @@ export const makeHelpers = () => {
  */
 
 /** @param {PromisifiedFSReadFile} readFile */
-export const makeCompressFile = readFile => async filePath => {
+export const makeCompressFile = (readFile) => async (filePath) => {
   const fileContents = await readFile(filePath, 'utf8');
   const buffer = Buffer.from(fileContents, 'utf-8');
   const compressed = await promisify(gzip)(buffer);

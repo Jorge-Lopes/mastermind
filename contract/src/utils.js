@@ -57,6 +57,7 @@ export const makeAssertions = () => {
     assert(code.length === 4, `Invalid code length: ${code.length}`);
 
     for (const element of code) {
+      assert(typeof element === "number", `Invalid code type: ${element}`);
       assert(element >= 0 && element < 6, `Invalid code value: ${element}`);
     }
   };
