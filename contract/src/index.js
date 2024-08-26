@@ -20,15 +20,17 @@ export const prepare = async (zcf, privateArgs, baggage) => {
 
   const makeGameNode = async () => {
     const gamesCount = baggage.get('games count');
+    baggage.set("games count", gamesCount + 1);
     return E(storageNode).makeChildNode(`game${gamesCount}`);
   };
 
   const makeGameHandle = async () => {
-    const [gameNode, seed] = await Promise.all([
+    const [gameNode, timestamp] = await Promise.all([
       makeGameNode(),
       E(timer).getCurrentTimestamp(),
     ]);
-
+    
+    const seed = Number(timestamp.absValue);
     const game = makeGame(gameNode, seed);
     const playerKit = game.self.initPlayerKit();
     return playerKit;
