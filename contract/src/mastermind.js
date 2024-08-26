@@ -8,12 +8,15 @@ import { generateSecretCode, makeAssertions } from './utils.js';
  * @returns
  */
 export const preparePlayerKit = () => {
-  const makePlayerKit = game => {
+  const makePlayerKit = (game) => {
     const { invitationMakers, publicTopics } = game;
 
+    const playerTopics = publicTopics.getPublicTopics();
+    const secretCode = publicTopics.getMastermindSecretCode();
     const playerKit = harden({
-      publicTopics,
+      publicSubscribers: { game: playerTopics.game },
       invitationMakers,
+      secretCode, // NOTE: this method exists only for testing purposes
     });
 
     return playerKit;
@@ -55,6 +58,7 @@ export const prepareGame = (zcf, baggage, makeRecorderKit) => {
       feedbackList: [],
       attemptsLeft: 10,
       phase: phase.ACTIVE,
+      secretCode: secretCode,
     });
 
     const recorderKit = makeRecorderKit(gameNode);
@@ -72,7 +76,7 @@ export const prepareGame = (zcf, baggage, makeRecorderKit) => {
       helper: {
         updateMastermindState(updatedState) {
           const { recorderKit, mastermindState } = this.state;
-          const { guessList, feedbackList, attemptsLeft } = mastermindState;
+          const { guessList, feedbackList, attemptsLeft, secretCode } = mastermindState;
           const { guessCode, feedback } = updatedState;
 
           const newPhase =
@@ -87,6 +91,7 @@ export const prepareGame = (zcf, baggage, makeRecorderKit) => {
             feedbackList: [...feedbackList, feedback],
             attemptsLeft: attemptsLeft - 1,
             phase: newPhase,
+            secretCode: secretCode,
           });
 
           // @ts-expect-error
@@ -158,11 +163,17 @@ export const prepareGame = (zcf, baggage, makeRecorderKit) => {
         },
       },
       publicTopics: {
-        getMastermindState() {
+        getPublicTopics() {
           const { recorderKit } = this.state;
-          return makeRecorderTopic('Mastermind state', harden(recorderKit));
+          return harden({
+            game: {
+              description: "Mastermind game",
+              subscriber: recorderKit.subscriber,
+              storagePath: recorderKit.recorder.getStoragePath(),
+            },
+          });
         },
-        // ToDo: remove this method. Just for testing purpose
+        // NOTE: this method exists only for testing purposes
         getMastermindSecretCode() {
           return harden(this.state.secretCode);
         },
