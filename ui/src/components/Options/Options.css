@@ -1,0 +1,17 @@
+.options-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.option {
+    width: 30px;
+    height: 30px;
+    border-radius: 25%;
+    margin: 5px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+  }

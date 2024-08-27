@@ -1,0 +1,26 @@
+.feedback-table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  text-align: center;
+  border-left: 1px solid black;
+}
+
+.feedback-circle-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.feedback-circle-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2px;
+}
+
+.feedback-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 2px;
+}

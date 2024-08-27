@@ -1,0 +1,44 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; 
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'top top top'
+    'left center right';
+  height: 100vh; /* Full viewport height */
+  gap: 10px; /* Optional gap between items */
+}
+
+.main-top {
+  grid-area: top;
+}
+
+.main-left {
+  grid-area: left;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-center {
+  grid-area: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+}
+
+.main-right {
+  grid-area: right;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

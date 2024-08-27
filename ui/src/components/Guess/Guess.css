@@ -1,0 +1,60 @@
+/* Guess.css */
+
+/* Container for the entire Guess component */
+.guess-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+  }
+  
+  /* Table styling for the guess cells */
+  table {
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  /* General table cell styling */
+  td {
+    padding: 10px;
+  }
+  
+  /* Wrapper for each guess cell and color selector */
+  .guess-cell-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Circle representing the color guess */
+  .guess-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 2px solid #ddd;
+  }
+  
+  /* Dropdown for selecting the color */
+  .color-selector {
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+  }
+  
+  /* Styling for the submit button */
+  .submit-guess-btn {
+    padding: 10px 20px;
+    color: #fff;
+    background-color: white;
+    border: 2px solid black;
+    color: black;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  

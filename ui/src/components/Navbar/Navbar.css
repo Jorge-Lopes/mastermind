@@ -1,0 +1,46 @@
+.navbar {
+  align-items: center;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+}
+
+.connect-wallet-btn {
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 8px;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.title-container {
+  text-align: center; 
+  margin-top: 10px; 
+  margin-bottom: 10px; 
+}
+
+.title {
+  font-family: 'Arial', sans-serif; 
+  font-size: 2rem;
+  font-weight: bold;
+  color: black; 
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  letter-spacing: 2px; 
+  padding: 10px; 
+  background: linear-gradient(135deg, #5d26d5, #7872b5);
+  border-radius: 10px; 
+  display: inline-block;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
