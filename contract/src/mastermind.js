@@ -1,18 +1,14 @@
 // @ts-check
 import { M, prepareExoClassKit } from '@agoric/vat-data';
-import { makeRecorderTopic } from '@agoric/zoe/src/contractSupport/index.js';
 import { E } from '@endo/eventual-send';
 import { generateSecretCode, makeAssertions } from './utils.js';
 
-/**
- * @returns
- */
 export const preparePlayerKit = () => {
   const makePlayerKit = (game) => {
     const { invitationMakers, publicTopics } = game;
-
     const playerTopics = publicTopics.getPublicTopics();
     const secretCode = publicTopics.getMastermindSecretCode();
+
     const playerKit = harden({
       publicSubscribers: { game: playerTopics.game },
       invitationMakers,
@@ -76,15 +72,16 @@ export const prepareGame = (zcf, baggage, makeRecorderKit) => {
       helper: {
         updateMastermindState(updatedState) {
           const { recorderKit, mastermindState } = this.state;
-          const { guessList, feedbackList, attemptsLeft, secretCode } = mastermindState;
+          const { guessList, feedbackList, attemptsLeft, secretCode } =
+            mastermindState;
           const { guessCode, feedback } = updatedState;
 
           const newPhase =
             feedback.correctPositionCount === 4
               ? phase.COMPLETED
               : attemptsLeft > 1
-              ? phase.ACTIVE
-              : phase.FAILED;
+                ? phase.ACTIVE
+                : phase.FAILED;
 
           const newMastermindState = harden({
             guessList: [...guessList, guessCode],
@@ -114,11 +111,11 @@ export const prepareGame = (zcf, baggage, makeRecorderKit) => {
           for (let i = 0; i < secretCode.length; i++) {
             digitCountSecretCode.set(
               secretCode[i],
-              (digitCountSecretCode.get(secretCode[i]) || 0) + 1,
+              (digitCountSecretCode.get(secretCode[i]) || 0) + 1
             );
             digitCountGuessCode.set(
               guessCode[i],
-              (digitCountGuessCode.get(guessCode[i]) || 0) + 1,
+              (digitCountGuessCode.get(guessCode[i]) || 0) + 1
             );
           }
 
@@ -167,7 +164,7 @@ export const prepareGame = (zcf, baggage, makeRecorderKit) => {
           const { recorderKit } = this.state;
           return harden({
             game: {
-              description: "Mastermind game",
+              description: 'Mastermind game',
               subscriber: recorderKit.subscriber,
               storagePath: recorderKit.recorder.getStoragePath(),
             },
@@ -183,7 +180,7 @@ export const prepareGame = (zcf, baggage, makeRecorderKit) => {
           return zcf.makeInvitation(
             (seat, offerArgs) =>
               this.facets.helper.makeGuessHandler(seat, offerArgs),
-            'make a guess offer',
+            'make a guess offer'
           );
         },
       },
@@ -196,7 +193,7 @@ export const prepareGame = (zcf, baggage, makeRecorderKit) => {
           return playerKit;
         },
       },
-    },
+    }
   );
 
   return harden(makeGame);

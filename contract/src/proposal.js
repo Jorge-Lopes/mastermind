@@ -2,7 +2,7 @@ import { E } from '@endo/eventual-send';
 
 console.warn('start proposal module evaluating');
 
-export const startMastermind = async permittedPowers => {
+export const startMastermind = async (permittedPowers) => {
   console.error('startMastermind...');
 
   const {
@@ -18,7 +18,11 @@ export const startMastermind = async permittedPowers => {
   const marshaller = await E(board).getPublishingMarshaller();
   const storageNode = await E(chainStorage).makeChildNode('mastermind');
 
-  const privateArgs = harden({ marshaller, storageNode, timer: chainTimerService });
+  const privateArgs = harden({
+    marshaller,
+    storageNode,
+    timer: chainTimerService,
+  });
   const installation = await mastermindInstallationP;
 
   const { instance } = await E(startUpgradable)({

@@ -12,7 +12,6 @@ import { prepareGame } from './mastermind.js';
  * @returns
  */
 export const prepare = async (zcf, privateArgs, baggage) => {
-  
   const { storageNode, marshaller, timer } = privateArgs;
   const { makeRecorderKit } = prepareRecorderKitMakers(baggage, marshaller);
   const makeGame = prepareGame(zcf, baggage, makeRecorderKit);
@@ -20,7 +19,7 @@ export const prepare = async (zcf, privateArgs, baggage) => {
 
   const makeGameNode = async () => {
     const gamesCount = baggage.get('games count');
-    baggage.set("games count", gamesCount + 1);
+    baggage.set('games count', gamesCount + 1);
     return E(storageNode).makeChildNode(`game${gamesCount}`);
   };
 
@@ -29,7 +28,7 @@ export const prepare = async (zcf, privateArgs, baggage) => {
       makeGameNode(),
       E(timer).getCurrentTimestamp(),
     ]);
-    
+
     const seed = Number(timestamp.absValue);
     const game = makeGame(gameNode, seed);
     const playerKit = game.self.initPlayerKit();
@@ -46,14 +45,14 @@ export const prepare = async (zcf, privateArgs, baggage) => {
     M.interface('PublicFacetI', {
       makeGameInvitation: M.call().returns(M.promise()),
     }),
-    { makeGameInvitation },
+    { makeGameInvitation }
   );
 
   const creatorFacet = prepareExo(
     baggage,
     'mastermind creatorFacet',
     M.interface('CreatorFacetI', {}),
-    {},
+    {}
   );
 
   return harden({ publicFacet, creatorFacet });

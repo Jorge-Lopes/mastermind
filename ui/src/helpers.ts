@@ -1,21 +1,20 @@
-export const getStartGameOfferSpecs = (instance) => {
-  
-  const offerId = `start_game_${Date.now()}`
-  
+export const getStartGameOfferSpecs = (instance: unknown) => {
+  const offerId = `start_game_${Date.now()}`;
+
   const invitationSpec = {
-    source: "contract",
+    source: 'contract',
     instance,
-    publicInvitationMaker: "makeGameInvitation",
+    publicInvitationMaker: 'makeGameInvitation',
   };
 
   const onStatusChange = (update: { status: any; data: any }) => {
-    console.log("UPDATE", update);
+    console.log('UPDATE', update);
     const { status, data } = update;
 
-    if (status === "error") {
+    if (status === 'error') {
       alert(`Offer error: ${data}`);
-    } else if (status === "seated") {
-      alert("Offer accepted");
+    } else if (status === 'seated') {
+      alert('Offer accepted');
     }
   };
 
@@ -26,24 +25,26 @@ export const getStartGameOfferSpecs = (instance) => {
   };
 };
 
-export const getMakeGuessOfferSpecs = (gameIndex: string) => {
+export const getMakeGuessOfferSpecs = (gameIndex: string | null) => {
+  if (!gameIndex) return null;
+
   const previousOffer = gameIndex;
-  console.log("LOG: previousOffer", previousOffer);
+  console.log('LOG: previousOffer', previousOffer);
 
   const invitationSpec = {
-    source: "continuing",
+    source: 'continuing',
     previousOffer,
-    invitationMakerName: "makeGuessInvitation",
+    invitationMakerName: 'makeGuessInvitation',
   };
 
   const onStatusChange = (update: { status: any; data: any }) => {
-    console.log("UPDATE", update);
+    console.log('UPDATE', update);
     const { status, data } = update;
 
-    if (status === "error") {
+    if (status === 'error') {
       alert(`Offer error: ${data}`);
-    } else if (status === "seated") {
-      alert("Offer accepted");
+    } else if (status === 'seated') {
+      alert('Offer accepted');
     }
   };
 
