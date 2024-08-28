@@ -57,4 +57,15 @@
     margin: 4px 2px;
     cursor: pointer;
   }
+
+  .submit-guess-btn.disabled {
+    background-color: grey;
+    cursor: not-allowed;
+  }
   
+  .phase-caption {
+    margin: 20px 5px;
+    font-size: 18px;
+    border: 1px solid black;
+    padding: 10px;
+  }

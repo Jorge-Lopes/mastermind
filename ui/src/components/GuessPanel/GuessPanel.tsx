@@ -1,20 +1,12 @@
 import Options from '../Options';
 import Guess from '../Guess';
-import { useGame, useWallet } from '../../hooks';
 
-const Board = () => {
-  const { game, subscriber } = useWallet();
-  const { feedbackList, phase } = useGame(subscriber);
-
-  console.log(game, subscriber);
-  console.log('LOG: feedbackList: ', feedbackList);
-  console.log('aqui');
-
+const GuessPanel = () => {
   return (
-    <div className="guess-panel-container">
+    <div>
       <Options />
-      <Guess phase={phase} gameIndex={game} />
+      <Guess />
     </div>
   );
 };
-export default Board;
+export default GuessPanel;

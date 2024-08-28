@@ -2,16 +2,15 @@ import { useState } from 'react';
 import colorMap from '../../assets/colorSchema';
 import { useAgoric } from '@agoric/react-components';
 import { getMakeGuessOfferSpecs } from '../../helpers';
+import { useGame, useWallet } from '../../hooks';
 import './Guess.css';
 
-type Props = {
-  phase: string;
-  gameIndex: string | null;
-};
+const Guess = () => {
+  const { game, subscriber } = useWallet();
+  const { phase } = useGame(subscriber);
 
-const Guess = ({ phase, gameIndex }: Props) => {
   const { makeOffer } = useAgoric();
-  const offerSpec = getMakeGuessOfferSpecs(gameIndex);
+  const offerSpec = getMakeGuessOfferSpecs(game);
 
   const [selectedColors, setSelectedColors] = useState<(number | string)[]>(
     new Array(4).fill('')
@@ -30,15 +29,19 @@ const Guess = ({ phase, gameIndex }: Props) => {
   };
 
   const submitOffer = () => {
-    if (makeOffer) {
+    if (makeOffer && offerSpec) {
       makeOffer(
         offerSpec.invitationSpec,
         {},
         { guessCode: selectedColors },
         offerSpec.onStatusChange
       );
+    } else {
+      alert('Make Offer Error');
     }
   };
+
+  const isButtonDisabled = phase !== 'active';
 
   return (
     <div className="guess-container">
@@ -72,9 +75,14 @@ const Guess = ({ phase, gameIndex }: Props) => {
           </tr>
         </tbody>
       </table>
-      <button className="submit-guess-btn" onClick={submitOffer}>
+      <button
+        className={`submit-guess-btn ${isButtonDisabled ? 'disabled' : ''}`}
+        onClick={submitOffer}
+        disabled={isButtonDisabled}
+      >
         Submit Guess
       </button>
+      <caption className="phase-caption">Game Status: {phase}</caption>
     </div>
   );
 };
