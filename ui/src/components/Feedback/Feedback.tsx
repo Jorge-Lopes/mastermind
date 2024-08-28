@@ -7,7 +7,7 @@ const getColor = (row: Array<number>, colorIndex: number) => {
     colorIndex < redCount
       ? 'black'
       : colorIndex < redCount + whiteCount
-        ? 'white'
+        ? 'red'
         : 'grey';
   return color;
 };
