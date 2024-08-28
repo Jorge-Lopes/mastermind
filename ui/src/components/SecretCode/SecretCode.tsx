@@ -4,7 +4,11 @@ import './SecretCode.css';
 
 const SecretCode = () => {
   const { subscriber } = useWallet();
-  const { secretCode } = useGame(subscriber);
+  const { secretCode, phase } = useGame(subscriber);
+
+  let displayedCode;
+
+  phase === 'active' ? (displayedCode = []) : (displayedCode = secretCode);
 
   return (
     <table className="secret-table">
@@ -15,7 +19,7 @@ const SecretCode = () => {
               <div
                 className="secret-circle"
                 style={{
-                  backgroundColor: colorMap[secretCode[index]] || 'grey',
+                  backgroundColor: colorMap[displayedCode[index]] || 'grey',
                 }}
               ></div>
             </td>
