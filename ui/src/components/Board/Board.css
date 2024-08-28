@@ -1,12 +1,11 @@
 .board-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Two equal columns for GuessList and Feedback */
-  grid-template-rows: auto 1fr; /* Top section auto height, bottom section takes remaining space */
-  grid-template-areas:
-    'top top'
-    'center right';
+  
   height: 100vh; /* Full viewport height */
-  gap: 10px; /* Optional gap between items */
+
+}
+
+.board-panel {
+  display: flex;
 }
 
 .board-top-section {

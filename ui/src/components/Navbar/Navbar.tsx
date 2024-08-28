@@ -1,5 +1,5 @@
 import { ConnectWalletButton } from '@agoric/react-components';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/bp-logo.png';
 import './Navbar.css';
 
 const Navbar = () => {

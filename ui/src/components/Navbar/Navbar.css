@@ -20,7 +20,6 @@
 
 .logo {
   height: 6em;
-  padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
@@ -35,7 +34,7 @@
   font-family: 'Arial', sans-serif; 
   font-size: 2rem;
   font-weight: bold;
-  color: black; 
+  color: whitesmoke; 
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   letter-spacing: 2px; 
   padding: 10px; 

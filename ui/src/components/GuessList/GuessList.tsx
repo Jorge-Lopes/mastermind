@@ -27,7 +27,7 @@ const GuessList = () => {
               return (
                 <td key={i}>
                   <div
-                    className="guess-circle"
+                    className="guess-list-circle"
                     style={{ backgroundColor: color }}
                   ></div>
                 </td>

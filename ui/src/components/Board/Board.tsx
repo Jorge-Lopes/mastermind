@@ -9,11 +9,13 @@ const Board = () => {
       <div className="board-top-section">
         <SecretCode />
       </div>
-      <div className="board-left-section">
-        <GuessList />
-      </div>
-      <div className="board-right-section">
-        <Feedback />
+      <div className='board-panel'>
+        <div className="board-left-section">
+          <GuessList />
+        </div>
+        <div className="board-right-section">
+          <Feedback />
+        </div>
       </div>
     </div>
   );
