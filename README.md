@@ -28,11 +28,13 @@ The game allows users to play Mastermind, where they try to guess a secret code 
 The secret code of each new game is generated via the [Mersenne-Twister](https://www.npmjs.com/package/mersenne-twister) package, which is a pseudorandom number generator.
 
 At the `generateSecretCode` helper function, a new instance of the Mersenne Twister generator is created and initialized, being the `seed` provided the `timestamp` of the moment the `makeGameHandle` is executed on chain.
-The function generates a 4-digit secret code by looping 4 times, using generator.random() to produce a number between 0 and 5, which is added to secretCode. The size of the code and the range of values can be easily adjusted within the generateSecretCode function.
+The function generates a 4-digit secret code, using generator.random() to produce a number between 0 and 5. The size of the code and the range of values can be easily adjusted within the generateSecretCode function.
 
 NOTE: an interesting update would be exposing a method to change the structure of the secretCode via the contract `creatorFacet`
 
-**IMPORTANT**: The seed is used to initialize the random number generator can be extracted from the chain logs, making the random number sequence predictable.
+**IMPORTANT**: 
+- The seed is used to initialize the random number generator can be extracted from the chain logs, making the random number sequence predictable for anyone running a node.
+- The secret code is currently being written to `vstorage` at the moment a game is initiated, in order to make it easier to test it. This should be updated to expose its value only if the game phase is not "active".
 
 ## Getting Started
 
