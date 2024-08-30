@@ -8,7 +8,6 @@ export const getStartGameOfferSpecs = (instance: unknown) => {
   };
 
   const onStatusChange = (update: { status: any; data: any }) => {
-    console.log('UPDATE', update);
     const { status, data } = update;
 
     if (status === 'error') {
@@ -27,9 +26,7 @@ export const getStartGameOfferSpecs = (instance: unknown) => {
 
 export const getMakeGuessOfferSpecs = (gameIndex: string | null) => {
   if (!gameIndex) return null;
-
   const previousOffer = gameIndex;
-  console.log('LOG: previousOffer', previousOffer);
 
   const invitationSpec = {
     source: 'continuing',
@@ -38,7 +35,6 @@ export const getMakeGuessOfferSpecs = (gameIndex: string | null) => {
   };
 
   const onStatusChange = (update: { status: any; data: any }) => {
-    console.log('UPDATE', update);
     const { status, data } = update;
 
     if (status === 'error') {
