@@ -29,7 +29,11 @@ export const makeHelpers = () => {
     const marshaller = board.getReadonlyMarshaller();
     const chainTimerService = buildManualTimer(t.log);
 
-    const privateArgs = harden({ storageNode, marshaller, timer: chainTimerService });
+    const privateArgs = harden({
+      storageNode,
+      marshaller,
+      timer: chainTimerService,
+    });
 
     const installation = E(zoe).install(contractBundle);
     const { creatorFacet, publicFacet, instance } = await E(zoe).startInstance(
@@ -72,8 +76,13 @@ export const makeHelpers = () => {
     return mastermindState.value;
   };
 
-  const getSecretCode = async (publicTopics) => {
-    return E(publicTopics).getMastermindSecretCode();
+  const getSecretCode = async (publicSubscribers) => {
+    await eventLoopIteration();
+
+    const mastermindSubscriber = publicSubscribers.game.subscriber;
+    const mastermindState = await E(mastermindSubscriber).getUpdateSince();
+
+    return mastermindState.value.secretCode;
   };
 
   const generateRandomGuess = () => {

@@ -7,12 +7,10 @@ export const preparePlayerKit = () => {
   const makePlayerKit = (game) => {
     const { invitationMakers, publicTopics } = game;
     const playerTopics = publicTopics.getPublicTopics();
-    const secretCode = publicTopics.getMastermindSecretCode();
 
     const playerKit = harden({
       publicSubscribers: { game: playerTopics.game },
       invitationMakers,
-      secretCode, // NOTE: this method exists only for testing purposes
     });
 
     return playerKit;
@@ -20,6 +18,10 @@ export const preparePlayerKit = () => {
   return makePlayerKit;
 };
 harden(preparePlayerKit);
+
+/**
+ * @typedef {{ guessList: number[], feedbackList: number[], attemptsLeft: number, phase: string, secretCode: number[] }} MastermindState
+ */
 
 /**
  *
@@ -49,6 +51,12 @@ export const prepareGame = (zcf, baggage, makeRecorderKit) => {
     const secretCode = generateSecretCode(seed);
     assertions.assertCode(secretCode);
 
+    /* Note:
+     * The value of secretCode code is being written to Vstorage when the game is initiated.
+     * This decision was made only to make it easier to test the Contract and the UI
+     */
+
+    /** @type {MastermindState} */
     const mastermindState = harden({
       guessList: [],
       feedbackList: [],
@@ -91,7 +99,6 @@ export const prepareGame = (zcf, baggage, makeRecorderKit) => {
             secretCode: secretCode,
           });
 
-          // @ts-expect-error
           this.state.mastermindState = newMastermindState;
           E(recorderKit.recorder).write(this.state.mastermindState);
         },
@@ -169,10 +176,6 @@ export const prepareGame = (zcf, baggage, makeRecorderKit) => {
               storagePath: recorderKit.recorder.getStoragePath(),
             },
           });
-        },
-        // NOTE: this method exists only for testing purposes
-        getMastermindSecretCode() {
-          return harden(this.state.secretCode);
         },
       },
       invitationMakers: {

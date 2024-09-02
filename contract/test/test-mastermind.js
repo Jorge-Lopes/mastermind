@@ -32,10 +32,10 @@ test('win game', async (t) => {
 
   const invitation = await E(publicFacet).makeGameInvitation();
   const userSeat = await E(zoe).offer(invitation);
-  const { invitationMakers, publicSubscribers, secretCode } =
+  const { invitationMakers, publicSubscribers } =
     await E(userSeat).getOfferResult();
 
-  const guess = secretCode;
+  const guess = await helpers.getSecretCode(publicSubscribers);
   const feedback = await helpers.makeGuess(zoe, invitationMakers, guess);
   t.deepEqual(feedback, 'Congratulations, you won the game.');
 
@@ -51,8 +51,7 @@ test('try to send invalid guess', async (t) => {
 
   const invitation = await E(publicFacet).makeGameInvitation();
   const userSeat = await E(zoe).offer(invitation);
-  const { invitationMakers, publicSubscribers } =
-    await E(userSeat).getOfferResult();
+  const { invitationMakers } = await E(userSeat).getOfferResult();
 
   // try to send guess with invalid length
   let guess = [1, 2];
@@ -81,10 +80,10 @@ test('try to play after game won', async (t) => {
 
   const invitation = await E(publicFacet).makeGameInvitation();
   const userSeat = await E(zoe).offer(invitation);
-  const { invitationMakers, publicSubscribers, secretCode } =
+  const { invitationMakers, publicSubscribers } =
     await E(userSeat).getOfferResult();
 
-  const guess = secretCode;
+  const guess = await helpers.getSecretCode(publicSubscribers);
   await helpers.makeGuess(zoe, invitationMakers, guess);
 
   let mastermindState = await helpers.getMastermindState(publicSubscribers);
@@ -131,16 +130,18 @@ test('try to play after 10 guesses', async (t) => {
 });
 
 test('secret code generator', async (t) => {
-  const { zoe, publicFacet, helpers, chainTimerService } = t.context;
+  const { zoe, publicFacet, chainTimerService, helpers } = t.context;
 
   let invitation = await E(publicFacet).makeGameInvitation();
   let userSeat = await E(zoe).offer(invitation);
-  const { secretCode: secretCode_1 } = await E(userSeat).getOfferResult();
+  const { publicSubscribers: ps_1 } = await E(userSeat).getOfferResult();
+  const secretCode_1 = await helpers.getSecretCode(ps_1);
 
   chainTimerService.tick(1000000000);
   invitation = await E(publicFacet).makeGameInvitation();
   userSeat = await E(zoe).offer(invitation);
-  const { secretCode: secretCode_2 } = await E(userSeat).getOfferResult();
+  const { publicSubscribers: ps_2 } = await E(userSeat).getOfferResult();
+  const secretCode_2 = await helpers.getSecretCode(ps_2);
 
   t.notDeepEqual(secretCode_1, secretCode_2, 'Invalid secret code');
 });
