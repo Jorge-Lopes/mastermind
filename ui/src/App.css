@@ -1,0 +1,36 @@
+/* Ensure the root container fits content naturally */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'top top top'
+    'left center right';
+  gap: 10px; /* Optional gap between items */
+  height: 100vh; /* Full viewport height */
+  align-items: center; /* Center items vertically */
+}
+
+.main-top {
+  grid-area: top;
+}
+
+.main-left,
+.main-center,
+.main-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-center {
+  border: 1px solid black; /* Retain the border for visual purposes */
+}
