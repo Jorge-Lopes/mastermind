@@ -1,33 +1,3 @@
-.board-container {
-  
-  height: 100vh; /* Full viewport height */
-
-}
-
 .board-panel {
   display: flex;
-}
-
-.board-top-section {
-  grid-area: top;
-}
-
-.board-left-section {
-  grid-area: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.board-right-section {
-  grid-area: right;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Optional: Ensure the GuessList and Feedback have a proper width */
-.board-left-section > div,
-.board-right-section > div {
-  width: 100%;
 }

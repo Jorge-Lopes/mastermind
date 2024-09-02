@@ -5,15 +5,15 @@ import './Board.css';
 
 const Board = () => {
   return (
-    <div className="board-container">
-      <div className="board-top-section">
+    <div>
+      <div>
         <SecretCode />
       </div>
-      <div className='board-panel'>
-        <div className="board-left-section">
+      <div className="board-panel">
+        <div>
           <GuessList />
         </div>
-        <div className="board-right-section">
+        <div>
           <Feedback />
         </div>
       </div>

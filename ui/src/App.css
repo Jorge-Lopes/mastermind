@@ -1,3 +1,4 @@
+/* Ensure the root container fits content naturally */
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -8,37 +9,28 @@
 
 .main-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr; 
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto 1fr;
   grid-template-areas:
     'top top top'
     'left center right';
-  height: 100vh; /* Full viewport height */
   gap: 10px; /* Optional gap between items */
+  height: 100vh; /* Full viewport height */
+  align-items: center; /* Center items vertically */
 }
 
 .main-top {
   grid-area: top;
 }
 
-.main-left {
-  grid-area: left;
+.main-left,
+.main-center,
+.main-right {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .main-center {
-  grid-area: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid black;
-}
-
-.main-right {
-  grid-area: right;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: 1px solid black; /* Retain the border for visual purposes */
 }
